@@ -1,0 +1,106 @@
+Every function takes an "event" and returns event[s*]
+
+*the 1:1 nature of event->event is old-guard functional programming EX Haskell.  Haskell has to use monads to model errors and other multiple return type scenarios--is this tractable in a general purpose language?  I'd wager monads are over the "learnability threshold", and they add a lot of arcana to code.  "Callback" style multiple return values passes the burden to the caller ex JS/Go callbacks if (err) ... .
+
+What about functions that return multiple types?  This is Java checked exceptions. Java pattern matches on return types via cascading try/catch blocks.  This is interesting, but its a disaster for code quality and exection.  
+
+
+
+Defining umbrella types is fine within the bounds of a program, but to maintain the strictness of the program text within the service the umbrella type needs to extend into the client's text.
+
+
+
+WTF is up with this aversion to making structs for stuff?  This is a critical feature of javascript--the simple and easy struct.
+
+
+
+
+
+rest request that takes an id, either returns:
+
+the entity
+not found
+permission denied
+server error
+
+public Response getThing(Requestor requestor, int id) throws ServerException {
+  if (!requestor.hasPermission())
+    return PermissionDenied();
+  Entity thing = getThing(id);
+  if (thing == null)
+    return NotFound();
+  return Ok(thing);
+}
+
+Entity getMyThing (id) throws DependencyException, AuthException {
+  Response resp = server.getThing(ME, id);
+
+  switch (resp.status) {
+    case Codes.OK:
+      return new Entity(resp.body);
+    case Codes.NOT_FOUND:
+      return null;
+    case Codes.PERMISSION_DENIED:
+      return throw new AuthException();
+    default:
+      throw new DependencyException(resp.status, resp.body);
+  }
+}
+
+//The input is seeded as the context for the function invocation
+//x is derived from the current context.  When we reference 'x' in
+//the function body we're saying "the x that's lying around here"
+//we're then creating a new context with a new x property
+
+square { x: int } -> { x: int }: {
+  x: [x x] | *
+}
+
+square { x: int } -> int: [x x] | *
+
+args: { x: 2 }
+
+
+
+abs: x: int -> int: testNeg | [negateNeg identity]
+
+testNeg: x: int -> NegativeInteger OR int:
+  x > 0 ? x | NegativeInteger ; x
+
+
+For method vs function dispatch, OOP languages use the . syntax placed
+after the variable to signal that the following symbol should be a message
+passed to the object and the object should figure out what to do with it
+(this is method invocation).  OOP languages place the function symbol before
+the value to signal that the executing context knows what the symbol means
+and has a function/local method in mind to call with the value.
+Idea: keep the right to left order of execution regular and differentiate
+dispatch intent by using different symbols to invoke functions/methods.
+Functions from the calling context can be invoked with | and messages
+are passed via the .
+Example:
+value | fun1 | result.mutate | fun2
+
+negateNeg: x: NegativeInteger -> int: [x.val -1] | *
+
+identity: x: any -> any: x
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
