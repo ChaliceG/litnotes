@@ -1,0 +1,60 @@
+Strong serialization:
+  The programming language property that there is no transmutation between program text, workable machine state, and serialized output for data of a given type.  In a language, some types may be strongly serializable and some may not.  For instance, most languages have strongly serializable strings called string literals.  As far as I know, no languages have strongly serializable abstract data types such as a map or list.
+
+An example using javascript, which would be strongly serializable if it were not for the object prototype chain:
+
+A programmer writes in javascript:
+  var a = { foo: 'bar' };
+  console.log(JSON.stringify(a));
+Then executes it in chrome with the debug console open and a breakpoint at the var a... line.  While debugging, the programmer can see that chrome has a value {foo: 'bar'} in its execution state*.  Then, after the console.log is executed, "{foo:'bar'}" is printed to the console.  At all 3 stages of program text, execution, and output, the same value exists.
+
+*This value also inherits a littany of other values through its prototype chain, which breaks strong serialization because it means the language added values to what the programmer wrote.  Additionally, JSON.stringify removes those values when serializing, which also breaks strong serialization.
+
+
+Advantages:
+  Strong serialization is all about simplicity.  It allows the programmer to "show, don't tell", giving them direct access to insert state into the program's execution, then pull down state as output. Programming becomes about transmuting one tangible state into another, without any side effects or unintended arcana.
+
+  "a map is just a map; a list is just a list"
+
+  Removing the pagentry around values allows for powerful abstractions and mutations.
+
+  Values in a strongly serializable language are at all times atomic entities that can be lifted out of the programming environment
+
+
+
+
+
+
+Implications
+  All values must be representable as literals, since there must be a program text equivalent to machine state.
+  Objects can't inherit, or the notation for value type defintion ('{}') must be some immutable thing
+  values are immutable?  Because if I write a = {foo:'bar'} that has to stick in memory.
+    -this is OK, it just means that the primary operation of the program is to take a value of one type and map it to a value of some [other] type.  These transmutations are the bulk of program text.
+      -define transmutation
+
+  programming in this context may feel overly simple or remedial.
+
+
+
+
+
+
+
+
+
+
+Thoughts:
+  -almost all languages are strongly serializable about simple types like strings and ints.
+    -are they about doubles?
+  -When considering "visible machine state", we look past optimizations some languages make for efficiency purposes that are completely abstracted from the programmer.  Ex, clojure may implement a hashmap using a fancy structural sharing trie, or V8 creates classes and structures for javascript objects at runtime.  These optimizations are ignored when considering strong serialization since they don't affect logical program execution.
+
+  This language property brings program text in line with the load of service programmers.  Their job is often times at a maco level "take something that looks like this, and produce something that looks like this".  Most languages don't have a convenient way for the programmer to represent what "this" is.  As an exercise, say you're ingesting an employee object, and your task is to produce a database write request to save that employee in a database a la a traditional "CRUD" service.  Your first task (and really the only important task) is to find out what an "employee" is.  Lets say after some good work you figure out the employee will have:
+    -a string first name
+    -a string last name
+    -a number Id
+
+  Now you have to start programming Java, which, like you, wants to know what an employee is first off.  So, you go and start to write out:
+
+  class Employee { ... }
+
+  Stop!  This is exactly our problem!  On lines 24-26 I said everything that's needed

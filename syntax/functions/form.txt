@@ -1,0 +1,19 @@
+//The input is seeded as the context for the function invocation
+//x is derived from the current context.  When we reference 'x' in
+//the function body we're saying "the x that's lying around here"
+//we're then creating a new context with a new x property
+
+square { x: int } -> { x: int }: {
+  x: [x x] | *
+}
+
+square { x: int } -> int: [x x] | *
+
+args: { x: 2 }
+
+
+
+abs: x: int -> int: testNeg | [negateNeg identity]
+
+testNeg: x: int -> NegativeInteger OR int:
+  x > 0 ? x | NegativeInteger ; x

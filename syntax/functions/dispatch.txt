@@ -1,0 +1,17 @@
+For method vs function dispatch, OOP languages use the . syntax placed
+after the value to signal that the following symbol should be a message
+passed to the object and the object should figure out what to do with it
+(this is method invocation).  OOP languages place the function symbol before
+the value to signal that the executing context knows what the symbol means
+and has a function/local method in mind to call with the value.
+Idea: keep the right to left order of execution regular and differentiate
+dispatch intent by using different symbols to invoke functions/methods.
+Functions from the calling context can be invoked with | and messages
+are passed via the .
+Example:
+value | fun1 | result.mutate | fun2
+
+negateNeg: x: NegativeInteger -> int: [x.val -1] | *
+
+identity: x: any -> any: x
+

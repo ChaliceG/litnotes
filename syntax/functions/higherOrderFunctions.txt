@@ -1,0 +1,30 @@
+
+Its natural to place the higher order function to the left of the lower function.
+We want to put map before how the elements will be mapped:
+map (how)
+NOT
+(how | map)
+
+In lisps, functions can appear anywhere, so constructs like
+
+result = [values]
+  .map(value -> othervalue)
+  .filter(yesNo?)
+  .reduce( (result, next) => result * next, initial)
+
+(reduce #(sef), intiial (filter #(sef) (map #(sef) values)))
+
+are common.  But this is a very irregular placement of functions, parameters, and messages.
+
+value, message, param, value, mesage, value, message, param, param, value, value, value
+
+In plain english, the above code would be:
+
+Take the values, transform them into something else, remove some of them, and then combine them into a result.
+
+values
+  | value -> otherValue
+  |- yesNo?
+  |+ { reduction: TODO, initial: initial }
+
+

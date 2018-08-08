@@ -1,0 +1,32 @@
+
+An overwhelming trend in web computing is an ever shrinking of computational units from large monolithic web servers to services to microservices to federated SAAS APIs.  Its not my intention to critique this progression but to make an observation otherwise unstated: as the size of computational units shrink, the surface area between them increases.  The code and thought that goes into defining the interface of components and integrating them with others is coming to dominate web programming.  Our languages are woefully unprepared for this surface area programming task.  Lit is a language built from the ground up for surface area programming.
+
+Some of the chief concerns of surface area programming are:
+
+  Serialization
+    In order for a component to talk to another, it must produce a meaningful message, and in order for the recieving component to do something intelligent, it must be able to reconstruct meaning from the message.  Often times in the development and support of components, humans will read these messages.  The JSON data interchange format has prooven resillient and effective in this area, and I intend to build Lit in some way on top of JSON.
+
+  Non-functional behavior
+    Pure math functions map values of one type to values of another (or the same) type.  Surface area functions don't behave like this--they can produce values of many different types, such as empty responses, "valid" responses, and error responses.  Functional programming adherants would model this with monads, but I believe these are unncessecarilly complicated and cumbersome.  Lit will do the simple thing and have functions that return multiple types.
+
+  Support for basic types congruent with serialization
+    At the front of many web components is documentation that specifies, in at least loose terms, what input and output is expected.  However, extravagant typing is frustrated by serialization into dramatically simpler languages like JSON.  Lit will provide typing at whatever level the serialization format its targetting supports.  Since JSON has a map and list type, Lit will likely have those types.  I don't yet know what to do about types like "this map will have an ID key, which maps to a number".
+
+  Machinelessness
+    Since surface area programming is the ambassador to a web component's execution environment, it is by necessity external to that execution environment, and its job is to translate between entities external to the environment into familiar objects.  This is one view of what a serialization library does when it takes a string buffer and produces an object in the native environment.
+
+    In java, your interfaces//spring configuration//routing configuration are not "java code".  You're not really programming JVM state--JVM state is affected by what you program but its not what you're saying in the program text--you rely on libraries to interpret what you're writing into actionable JVM state.
+
+
+    //Surface area programming is external to the machine it executes on, since its the ambassador between execution contexts.  SAP is all about preparing input and output to be consumed by a machine--a bridge between worlds.  Since it extends beyond the machine, it is another entity, but also since it's rooted in the machine can it be completely divorced?
+
+
+
+
+// is this appropriate here
+//  Statelessness/Idempotency
+//    Another overwhelming lesson the web programming community has learned over the last 20 years is the value of idempotency and the dangers of stateful components in distributed systems.  
+
+
+// bleh; random thought I had; not sure where its going
+//Immagine two connected software components as two rooms in a building sharing a wall with a door.  The door, with all its moulding, door knob, and embellished frame is the surface area code, and the interiors of the two rooms contain the business logic of the components.  Great detail may go into this door, and if two separate construction teams are building each room, getting them to agree on details like where the door is and its dimensions can be challenging.

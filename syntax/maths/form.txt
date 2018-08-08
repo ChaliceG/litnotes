@@ -1,0 +1,11 @@
+[x x] | *
+
+is
+
+x * x
+
+which means * is~ (product = 1, next) -> product * next
+
+*: [int] => int: A | (WHATEVER | reduce)
+
+I'd like to not have to break the regular postfix notation for math, but its probably inevitable.  V0 doesn't have infix math
