@@ -1,0 +1,12 @@
+A handler is a collection of pipes and pipe wiring statements.
+
+Handlers may be stateful, or a special type of them can be stateful (perhaps there's some trick here with wiring statements a la closures) to enable systems that manage resources.
+
+Stateful handlers are very strong analogues of classes in OOP languages with the chief distinctions that:
+    -they cannot be serialized into a value
+    -the can only send/receive values, and thus the "messages" they pass to eachother are immutable values
+    -therefore, they cannot be passed as references to other handlers
+
+Removing pass by reference removes many of the dangers and pitfalls of OOP.
+
+Not treating handlers as first class values is very limiting--we're removing many of the "gang of four" patterns, and we're well on our way to removing functional composition as well.

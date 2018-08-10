@@ -1,0 +1,13 @@
+A pipe is the "method" of lit.  It takes a single input value of a single shape and returns a single value of any number of shapes, similar to java methods that take a touple of values and can both return or throw checked exceptions.  Pipes are not mathematical functions because they can return a multitude of shapes.
+    -language--its not "return", its "send" because there's no "caller".  This pipe was handed an event of shape X and it just sends along an event of shape Y.  "return" implies a 2 part event of (recieve + send), which is mandatory for a system, but may not be part of a pipe.
+
+The runtime pattern matches pipes based on value shape.  The programmer can optionally wire pipes together with the | symbol a la Unix, but if that's not explicitly defined, lit will wire up events to pipes that can handle them.  (outstanding: is this a good idea?  This is how java exceptions work).
+    -idea: if you have to unroll the call stack to find a handler, and that handler produces a new event, where is that event "dispatched"?  At the source of the last event?  In the context of the found handler (this is what java does)?
+
+It's advantageous to allow bodyless pipe defs / shape defs like interfaces that are external artifacts.
+
+pipes are stateless.  They receive a value, produce a value, and are discarded.  This allows them to be moved across execution environments and enables simple input-output testing.
+
+
+
+Functions are single dimension pipes (pipes that can only return a single shape).  I haven't figured out if there should be separate syntax for functions.
