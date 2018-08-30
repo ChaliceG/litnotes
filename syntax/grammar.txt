@@ -1,0 +1,92 @@
+//Lit grammar V0
+
+//values
+value:
+    identifier
+    expression
+    map
+    list
+    string
+    number
+    boolean
+    null
+
+map:
+    '{' key_value_pair* '}'
+
+key_value_pair:
+    string ':' value
+
+list:
+    '[' value* ']'
+
+
+//shapes
+shape:
+    value
+    generic
+    shape "|" shape
+
+generic:
+    generic_map
+    generic_list
+    generic_string
+    generic_number
+    generic_boolean
+
+generic_map:
+    "map"
+    "{" generic_key_value_pair* "}"
+
+generic_key_value_pair:
+    generic_string ':' shape
+
+generic_list:
+    'list'
+    '[' shape ']'
+
+generic_string:
+    'string'
+    string
+
+generic_number:
+    'number'
+    number
+
+generic_boolean:
+    'boolean'
+    boolean
+
+
+
+
+
+
+
+
+shapedef:
+    "shape" identifier ':' value
+
+valuedef:
+    "val" identifier ':' value
+
+identifier:
+    string
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
